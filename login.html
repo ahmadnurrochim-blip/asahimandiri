@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Masuk - Asahi Mandiri</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+  <!-- Font Jepang -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@600;800&display=swap" rel="stylesheet">
+
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red: #bc002d;
+      --red-dark: #8b0022;
+      --ink: #1a1a1a;
+      --paper: #fdfaf5;
+      --gold: #c9a227;
+      --green: #10b981;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', 'Segoe UI', sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ============ BACKGROUND ============ */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background-image:
+        linear-gradient(rgba(253, 250, 245, 0.85), rgba(253, 250, 245, 0.94)),
+        url('https://images.unsplash.com/photo-1528360983277-13d401cdc186?auto=format&fit=crop&w=1920&q=80');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+    }
+
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      opacity: 0.06;
+      background-image:
+        radial-gradient(circle at 50% 100%, transparent 20%, var(--red) 21%, var(--red) 34%, transparent 35%, transparent 40%, var(--red) 41%, var(--red) 54%, transparent 55%);
+      background-size: 80px 40px;
+      pointer-events: none;
+    }
+
+    /* ============ HEADER ============ */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(253, 250, 245, 0.92);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--red);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .brand-mark {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--red);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-family: 'Shippori Mincho', serif;
+      font-weight: 800;
+      font-size: 20px;
+      box-shadow: 0 0 0 3px rgba(188, 0, 45, 0.15);
+      position: relative;
+    }
+
+    .brand-mark::after {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px dashed rgba(188, 0, 45, 0.4);
+      animation: spin 20s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+
+    .brand-text .jp {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: 1px;
+    }
+
+    .brand-text .en {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: var(--red);
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .nav-buttons { display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+      border: 2px solid #e8e2d8;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .nav-btn i { color: var(--red); font-size: 13px; }
+
+    .nav-btn:hover {
+      border-color: var(--red);
+      color: var(--red);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(188, 0, 45, 0.18);
+    }
+
+    .nav-btn.active {
+      background: var(--red);
+      border-color: var(--red);
+      color: #fff;
+    }
+    .nav-btn.active i { color: #fff; }
+
+    /* ============ MAIN ============ */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 50px 28px 80px;
+      position: relative;
+      min-height: calc(100vh - 200px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .kanji-watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Shippori Mincho', serif;
+      font-size: 340px;
+      font-weight: 800;
+      color: rgba(188, 0, 45, 0.04);
+      z-index: -1;
+      user-select: none;
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .sakura {
+      position: fixed;
+      font-size: 24px;
+      color: rgba(188, 0, 45, 0.2);
+      pointer-events: none;
+      animation: float 6s ease-in-out infinite;
+      z-index: 1;
+    }
+    .sakura.s1 { top: 12%;  left: 6%;  animation-delay: 0s; }
+    .sakura.s2 { top: 25%; right: 8%; animation-delay: 1.5s; }
+    .sakura.s3 { bottom: 18%; left: 10%; animation-delay: 3s; }
+    .sakura.s4 { bottom: 28%; right: 6%; animation-delay: 4.5s; }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-16px) rotate(12deg); }
+    }
+
+    /* ============ AUTH CARD ============ */
+    .auth-wrap {
+      width: 100%;
+      max-width: 460px;
+      background: rgba(255, 255, 255, 0.97);
+      backdrop-filter: blur(10px);
+      border-radius: 22px;
+      padding: 40px 36px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+      border: 2px solid #f0e9dc;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .auth-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--red), var(--gold), var(--red));
+    }
+
+    /* Header dalam card */
+    .auth-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .auth-header .auth-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(188, 0, 45, 0.08);
+      color: var(--red);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+    }
+
+    .auth-header h1 {
+      font-family: 'Shippori Mincho', serif;
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--ink);
+      margin-bottom: 6px;
+      line-height: 1.2;
+    }
+
+    .auth-header h1 .accent { color: var(--red); }
+
+    .auth-header p {
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.6;
+    }
+
+    /* Tabs */
+    .auth-tabs {
+      display: flex;
+      background: #f5efe6;
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 28px;
+      position: relative;
+    }
+
+    .auth-tab {
+      flex: 1;
+      padding: 11px 12px;
+      border: none;
+      background: none;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      color: #6b7280;
+      cursor: pointer;
+      border-radius: 9px;
+      transition: all 0.25s ease;
+      position: relative;
+      z-index: 2;
+    }
+
+    .auth-tab.active {
+      color: #fff;
+    }
+
+    .tab-slider {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: calc(50% - 4px);
+      height: calc(100% - 8px);
+      background: var(--red);
+      border-radius: 9px;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 12px rgba(188, 0, 45, 0.25);
+      z-index: 1;
+    }
+
+    .auth-tabs.signup-mode .tab-slider {
+      transform: translateX(100%);
+    }
+
+    /* Form */
+    .auth-form {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .auth-form.active { display: block; }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 8px;
+    }
+
+    .form-group label .req { color: var(--red); margin-left: 2px; }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #9ca3af;
+      font-size: 14px;
+      pointer-events: none;
+      transition: color 0.2s;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px 13px 44px;
+      border: 2px solid #e8e2d8;
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--ink);
+      background: #fff;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 4px rgba(188, 0, 45, 0.08);
+    }
+
+    .form-group input:focus ~ .input-icon {
+      color: var(--red);
+    }
+
+    .form-group.error input {
+      border-color: #ef4444;
+      background: #fef2f2;
+    }
+
+    .error-msg {
+      font-size: 12px;
+      color: #ef4444;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .form-group.error .error-msg { display: block; }
+
+    /* Password toggle */
+    .toggle-pass {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #9ca3af;
+      font-size: 14px;
+      padding: 6px;
+      transition: color 0.2s;
+    }
+
+    .toggle-pass:hover { color: var(--red); }
+
+    /* Row: remember + forgot */
+    .form-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      font-size: 13px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      color: #4b5563;
+      font-weight: 500;
+    }
+
+    .checkbox-wrap input {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--red);
+      cursor: pointer;
+    }
+
+    .forgot-link {
+      color: var(--red);
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .forgot-link:hover {
+      color: var(--red-dark);
+      text-decoration: underline;
+    }
+
+    /* Submit button */
+    .btn-auth {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 15px 32px;
+      background: var(--red);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 700;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: inherit;
+      box-shadow: 0 8px 20px rgba(188, 0, 45, 0.25);
+    }
+
+    .btn-auth:hover:not(:disabled) {
+      background: var(--red-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 12px 26px rgba(188, 0, 45, 0.35);
+    }
+
+    .btn-auth:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 24px 0;
+      color: #9ca3af;
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #e8e2d8;
+    }
+
+    /* Sosial login */
+    .social-login {
+      display: flex;
+      gap: 12px;
+    }
+
+    .social-login-btn {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px solid #e8e2d8;
+      background: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+    }
+
+    .social-login-btn:hover {
+      border-color: var(--red);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .social-login-btn.google i { color: #db4437; }
+    .social-login-btn.facebook i { color: #1877f2; }
+
+    /* Footer dalam card */
+    .auth-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .auth-footer a {
+      color: var(--red);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .auth-footer a:hover { text-decoration: underline; }
+
+    /* Alert */
+    .alert {
+      padding: 13px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      animation: slideDown 0.4s ease;
+    }
+
+    .alert.show { display: flex; }
+    .alert.success {
+      background: #ecfdf5;
+      color: #065f46;
+      border-left: 4px solid var(--green);
+    }
+    .alert.error {
+      background: #fef2f2;
+      color: #991b1b;
+      border-left: 4px solid #ef4444;
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ============ FOOTER ============ */
+    footer {
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 13px;
+      color: #9ca3af;
+      border-top: 1px solid #eae3d6;
+      background: rgba(253, 250, 245, 0.9);
+    }
+
+    footer .jp {
+      font-family: 'Shippori Mincho', serif;
+      color: var(--red);
+      letter-spacing: 4px;
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 820px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+      }
+      .nav-buttons { width: 100%; justify-content: flex-start; }
+      .nav-btn { flex: 1 1 auto; justify-content: center; padding: 9px 14px; font-size: 13px; }
+      .container { padding: 32px 18px 60px; }
+      .auth-wrap { padding: 32px 24px; }
+    }
+
+    @media (max-width: 480px) {
+      .nav-btn span { display: none; }
+      .nav-btn i { font-size: 15px; }
+      .brand-text .jp { font-size: 17px; }
+      .kanji-watermark { font-size: 200px; }
+      .auth-header h1 { font-size: 22px; }
+      .social-login { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background -->
+  <div class="bg"></div>
+  <div class="bg-pattern"></div>
+
+  <!-- ============ HEADER ============ -->
+  <header>
+    <div class="header-inner">
+
+      <a href="ASAHI.html" class="brand">
+        <div class="brand-mark">朝</div>
+        <div class="brand-text">
+          <span class="jp">Asahi Mandiri</span>
+          <span class="en">Japanese Learning</span>
+        </div>
+      </a>
+
+      <nav class="nav-buttons">
+  <a href="ASAHI.html" class="nav-btn">
+    <i class="fas fa-home"></i> <span>Beranda</span>
+  </a>
+  <a href="latihan.html" class="nav-btn">
+    <i class="fas fa-pen-fancy"></i> <span>Latihan</span>
+  </a>
+  <a href="materi.html" class="nav-btn">
+    <i class="fas fa-book-open"></i> <span>Materi</span>
+  </a>
+  <a href="kontak.html" class="nav-btn">
+    <i class="fas fa-envelope"></i> <span>Kontak</span>
+  </a>
+
+  <!-- ===== TOMBOL LOGIN / USER ===== -->
+  <div class="auth-slot" id="authSlot">
+    <!-- Default: tombol Masuk -->
+    <a href="login.html" class="nav-btn nav-btn-login" id="btnLoginHeader">
+      <i class="fas fa-user"></i> <span>Masuk</span>
+    </a>
+  </div>
+</nav>
+
+    </div>
+  </header>
+
+  <!-- ============ MAIN ============ -->
+  <main class="container">
+
+    <div class="kanji-watermark">会員</div>
+
+    <div class="sakura s1">🌸</div>
+    <div class="sakura s2">🌸</div>
+    <div class="sakura s3">🌸</div>
+    <div class="sakura s4">🌸</div>
+
+    <!-- AUTH CARD -->
+    <div class="auth-wrap">
+
+      <!-- Header -->
+      <div class="auth-header">
+        <div class="auth-badge">
+          <i class="fas fa-torii-gate"></i> 会員登録
+        </div>
+        <h1 id="authTitle">Selamat Datang <span class="accent">Kembali</span></h1>
+        <p id="authSub">Masuk untuk melanjutkan belajar bahasa Jepang.</p>
+      </div>
+
+      <!-- Alert -->
+      <div class="alert" id="authAlert"></div>
+
+      <!-- Tabs -->
+      <div class="auth-tabs" id="authTabs">
+        <div class="tab-slider"></div>
+        <button class="auth-tab active" data-tab="login" type="button">Masuk</button>
+        <button class="auth-tab" data-tab="signup" type="button">Daftar</button>
+      </div>
+
+      <!-- ============ FORM LOGIN ============ -->
+      <form class="auth-form active" id="formLogin" novalidate>
+
+        <div class="form-group" id="loginEmailGroup">
+          <label for="loginEmail">Email <span class="req">*</span></label>
+          <div class="input-wrap">
+            <input type="email" id="loginEmail" placeholder="contoh@email.com" autocomplete="email" />
+            <i class="fas fa-envelope input-icon"></i>
+          </div>
+          <div class="error-msg">Masukkan email yang valid.</div>
+        </div>
+
+        <div class="form-group" id="loginPassGroup">
+          <label for="loginPass">Password <span class="req">*</span></label>
+          <div class="input-wrap">
+            <input type="password" id="loginPass" placeholder="Minimal 6 karakter" autocomplete="current-password" />
+            <i class="fas fa-lock input-icon"></i>
+            <button type="button" class="toggle-pass" data-target="loginPass" aria-label="Tampilkan password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="error-msg">Password minimal 6 karakter.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="checkbox-wrap">
+            <input type="checkbox" id="remember" />
+            <span>Ingat saya</span>
+          </label>
+          <a href="#" class="forgot-link">Lupa password?</a>
+        </div>
+
+        <button type="submit" class="btn-auth" id="btnLogin">
+          <i class="fas fa-sign-in-alt"></i> Masuk
+        </button>
+
+        <div class="divider">atau masuk dengan</div>
+
+        <div class="social-login">
+          <button type="button" class="social-login-btn google" data-provider="Google">
+            <i class="fab fa-google"></i> Google
+          </button>
+          <button type="button" class="social-login-btn facebook" data-provider="Facebook">
+            <i class="fab fa-facebook-f"></i> Facebook
+          </button>
+        </div>
+
+        <div class="auth-footer">
+          Belum punya akun?
+          <a href="#" data-switch="signup">Daftar sekarang</a>
+        </div>
+
+      </form>
+
+      <!-- ============ FORM SIGNUP ============ -->
+      <form class="auth-form" id="formSignup" novalidate>
+
+        <div class="form-group" id="signupNamaGroup">
+          <label for="signupNama">Nama Lengkap <span class="req">*</span></label>
+          <div class="input-wrap">
+            <input type="text" id="signupNama" placeholder="Contoh: Budi Santoso" autocomplete="name" />
+            <i class="fas fa-user input-icon"></i>
+          </div>
+          <div class="error-msg">Nama minimal 2 karakter.</div>
+        </div>
+
+        <div class="form-group" id="signupEmailGroup">
+          <label for="signupEmail">Email <span class="req">*</span></label>
+          <div class="input-wrap">
+            <input type="email" id="signupEmail" placeholder="contoh@email.com" autocomplete="email" />
+            <i class="fas fa-envelope input-icon"></i>
+          </div>
+          <div class="error-msg">Masukkan email yang valid.</div>
+        </div>
+
+        <div class="form-group" id="signupPassGroup">
+          <label for="signupPass">Password <span class="req">*</span></label>
+          <div class="input-wrap">
+            <input type="password" id="signupPass" placeholder="Minimal 6 karakter" autocomplete="new-password" />
+            <i class="fas fa-lock input-icon"></i>
+            <button type="button" class="toggle-pass" data-target="signupPass" aria-label="Tampilkan password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="error-msg">Password minimal 6 karakter.</div>
+        </div>
+
+        <div class="form-group" id="signupConfirmGroup">
+          <label for="signupConfirm">Konfirmasi Password <span class="req">*</span></label>
+          <div class="input-wrap">
+            <input type="password" id="signupConfirm" placeholder="Ulangi password" autocomplete="new-password" />
+            <i class="fas fa-lock input-icon"></i>
+            <button type="button" class="toggle-pass" data-target="signupConfirm" aria-label="Tampilkan password">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="error-msg">Konfirmasi password tidak cocok.</div>
+        </div>
+
+        <div class="form-row">
+          <label class="checkbox-wrap">
+            <input type="checkbox" id="agree" />
+            <span>Saya setuju dengan <a href="#" style="color:var(--red); font-weight:700;">Syarat &amp; Ketentuan</a></span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-auth" id="btnSignup">
+          <i class="fas fa-user-plus"></i> Daftar Sekarang
+        </button>
+
+        <div class="divider">atau daftar dengan</div>
+
+        <div class="social-login">
+          <button type="button" class="social-login-btn google" data-provider="Google">
+            <i class="fab fa-google"></i> Google
+          </button>
+          <button type="button" class="social-login-btn facebook" data-provider="Facebook">
+            <i class="fab fa-facebook-f"></i> Facebook
+          </button>
+        </div>
+
+        <div class="auth-footer">
+          Sudah punya akun?
+          <a href="#" data-switch="login">Masuk di sini</a>
+        </div>
+
+      </form>
+
+    </div>
+
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <span class="jp">朝日 自立</span>
+    © 2025 Asahi Mandiri. Semua hak dilindungi.
+  </footer>
+
+  <script>
+    // ============================================================
+    //  TAB SWITCHING
+    // ============================================================
+    const authTabs   = document.getElementById('authTabs');
+    const tabBtns    = document.querySelectorAll('.auth-tab');
+    const formLogin  = document.getElementById('formLogin');
+    const formSignup = document.getElementById('formSignup');
+    const authTitle  = document.getElementById('authTitle');
+    const authSub    = document.getElementById('authSub');
+    const authAlert  = document.getElementById('authAlert');
+
+    function switchTab(tab) {
+      authAlert.classList.remove('show');
+      if (tab === 'login') {
+        authTabs.classList.remove('signup-mode');
+        tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === 'login'));
+        formLogin.classList.add('active');
+        formSignup.classList.remove('active');
+        authTitle.innerHTML = 'Selamat Datang <span class="accent">Kembali</span>';
+        authSub.textContent = 'Masuk untuk melanjutkan belajar bahasa Jepang.';
+      } else {
+        authTabs.classList.add('signup-mode');
+        tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === 'signup'));
+        formSignup.classList.add('active');
+        formLogin.classList.remove('active');
+        authTitle.innerHTML = 'Buat <span class="accent">Akun Baru</span>';
+        authSub.textContent = 'Daftar gratis dan mulai perjalanan belajar Jepangmu.';
+      }
+    }
+
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+    });
+
+    document.querySelectorAll('[data-switch]').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchTab(link.dataset.switch);
+      });
+    });
+
+    // ============================================================
+    //  TOGGLE PASSWORD
+    // ============================================================
+    document.querySelectorAll('.toggle-pass').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const target = document.getElementById(btn.dataset.target);
+        const icon = btn.querySelector('i');
+        if (target.type === 'password') {
+          target.type = 'text';
+          icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+          target.type = 'password';
+          icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+      });
+    });
+
+    // ============================================================
+    //  ALERT HELPER
+    // ============================================================
+    function showAlert(type, message) {
+      authAlert.className = 'alert show ' + type;
+      authAlert.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> <span>${message}</span>`;
+      setTimeout(() => authAlert.classList.remove('show'), 5000);
+    }
+
+    // ============================================================
+    //  VALIDASI
+    // ============================================================
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function setError(groupEl, hasError) {
+      groupEl.classList.toggle('error', hasError);
+    }
+
+    // Hapus error saat user mengetik
+    document.querySelectorAll('.form-group input').forEach(input => {
+      input.addEventListener('input', () => input.closest('.form-group').classList.remove('error'));
+    });
+
+    // ============================================================
+    //  LOGIN SUBMIT
+    // ============================================================
+    document.getElementById('formLogin').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const emailGroup = document.getElementById('loginEmailGroup');
+      const passGroup  = document.getElementById('loginPassGroup');
+      const email = document.getElementById('loginEmail').value.trim();
+      const pass  = document.getElementById('loginPass').value;
+
+      let valid = true;
+      if (!emailRegex.test(email)) { setError(emailGroup, true); valid = false; }
+      if (pass.length < 6)         { setError(passGroup, true);  valid = false; }
+      if (!valid) return;
+
+      const btn = document.getElementById('btnLogin');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
+
+      // Simulasi login (ganti dengan fetch ke backend jika ada)
+      setTimeout(() => {
+        // Simpan "sesi" di localStorage
+        const nama = email.split('@')[0];
+        localStorage.setItem('asahiUser', JSON.stringify({ nama, email }));
+        if (document.getElementById('remember').checked) {
+          localStorage.setItem('asahiRemember', '1');
+        }
+
+        showAlert('success', `Berhasil masuk! Selamat datang, ${nama}.`);
+
+        setTimeout(() => {
+          window.location.href = '.ASAHI.html';
+        }, 1200);
+
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Masuk';
+      }, 1200);
+    });
+
+    // ============================================================
+    //  SIGNUP SUBMIT
+    // ============================================================
+    document.getElementById('formSignup').addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const namaGroup    = document.getElementById('signupNamaGroup');
+      const emailGroup   = document.getElementById('signupEmailGroup');
+      const passGroup    = document.getElementById('signupPassGroup');
+      const confirmGroup = document.getElementById('signupConfirmGroup');
+      const agree        = document.getElementById('agree').checked;
+
+      const nama    = document.getElementById('signupNama').value.trim();
+      const email   = document.getElementById('signupEmail').value.trim();
+      const pass    = document.getElementById('signupPass').value;
+      const confirm = document.getElementById('signupConfirm').value;
+
+      let valid = true;
+      if (nama.length < 2)          { setError(namaGroup, true); valid = false; }
+      if (!emailRegex.test(email))  { setError(emailGroup, true); valid = false; }
+      if (pass.length < 6)          { setError(passGroup, true); valid = false; }
+      if (confirm !== pass || !confirm) { setError(confirmGroup, true); valid = false; }
+
+      if (!valid) return;
+
+      if (!agree) {
+        showAlert('error', 'Kamu harus menyetujui Syarat & Ketentuan.');
+        return;
+      }
+
+      const btn = document.getElementById('btnSignup');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Mendaftar...';
+
+      setTimeout(() => {
+        localStorage.setItem('asahiUser', JSON.stringify({ nama, email }));
+        showAlert('success', `Akun berhasil dibuat! Selamat datang, ${nama}.`);
+
+        setTimeout(() => {
+          window.location.href = 'asahi.html';
+        }, 1400);
+
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-user-plus"></i> Daftar Sekarang';
+      }, 1400);
+    });
+
+    // ============================================================
+    //  SOCIAL LOGIN (simulasi)
+    // ============================================================
+    document.querySelectorAll('.social-login-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const provider = btn.dataset.provider;
+        showAlert('success', `Menghubungkan ke ${provider}... (simulasi)`);
+      });
+    });
+
+    // ============================================================
+    //  AUTO-FILL jika sudah pernah login
+    // ============================================================
+    try {
+      const saved = localStorage.getItem('asahiUser');
+      if (saved) {
+        const user = JSON.parse(saved);
+        document.getElementById('loginEmail').value = user.email || '';
+      }
+    } catch (e) { /* abaikan */ }
+  </script>
+</body>
+</html>
